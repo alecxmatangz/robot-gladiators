@@ -27,10 +27,10 @@ var enemyAttack = 12;
 // function(enemyName) --> [enemyName] is a variable parameter/placeholder that indicates how the variable will be used in the function
 // AND matches with [enemyName] in the fight function
 var fight = function(enemyName) {
-    // Repeat and execute as long as the enemy-robot is alive
+    // Repeat and execute as long as the enemy-robot and player-robot are alive
     while(playerHealth > 0 && enemyHealth > 0) {
 
-    // promptFight variable to check if the player wants to fight or skip the battle
+    // ask player if they'd like to fight or run
     var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
 
     // console.log to read back the response of promptFight to make sure it's working
@@ -88,35 +88,62 @@ var fight = function(enemyName) {
     } // end of while loop
 }; // end of fight function 
 
-// fight();
-for(var i = 0; i < enemyNames.length; i++) {
-    // if player is still alive, keep fighting
-    if (playerHealth >0) {
-        // let player know what round they are in (arrays start at 0 so add 1)
-        window.alert('Welcome to Robot Gladiators! Round ' + (i + 1));
+// function to start a new game
+// startGame variable to run the game's loop multiple times
+var startGame = function() {
+    // reset player stats
+    playerHealth = 100;
+    playerAttack = 10;
+    playerMoney = 10;
+    
+    for(var i = 0; i < enemyNames.length; i++) {
+        // if player is still alive, keep fighting
+        if (playerHealth > 0) {
+            // let player know what round they are in (arrays start at 0 so add 1)
+            window.alert('Welcome to Robot Gladiators! Round ' + (i + 1));
 
-        // pick new enemy to fight based on the index of the enemyNames array
-        var pickedEnemyName = enemyNames[i];
+            // pick new enemy to fight based on the index of the enemyNames array
+            var pickedEnemyName = enemyNames[i];
 
-        // reset enemyHealth before starting new fight
-        enemyHealth = 50;
+            // reset enemyHealth before starting new fight
+            enemyHealth = 50;
 
-        // use debugger to pause script from running and check what's going on at that moment in time
-        // debugger;
+            // use debugger to pause script from running and check what's going on at that moment in time
+            // debugger;
 
-        //pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
-        fight(pickedEnemyName);
+            //pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
+            fight(pickedEnemyName);
+        }
+        //if the player isn't alive, stop the game
+        else {
+            window.alert('You have lost your robot in battle! Game over.');
+            break;
+        }
     }
-    //if the player isn't alive, stop the game
-    else {
-        window.alert('You have lost your robot in battle! Game over.');
-        break;
+    
+    // after the loop ends, we are either out of playerHealth or enemies, so run the endGame function
+    endGame();
+};
+
+// function to end the entire game
+var endGame = function() {
+    // if player is still alive, player wins!
+    if (playerHealth > 0) {
+        window.alert("Great job! You've survived the game! You now have a score of " + playerMoney + ".");
+    } else {
+        window.alert("You've lost your robot in battle.");
     }
-}
 
-//  if function fight() was a FUNCTION DECLARATION
-// function fight () {
-//     window.alert("Welcome to Robot Gladiators!");
-// }
+    // ask player if they'd like to play again
+    var playAgainConfirm = window.confirm("Would you like to play again?");
 
-// fight();
+    if (playAgainConfirm) {
+        // restart the game
+        startGame();
+    } else {
+        window.alert("Thank you for playing Robot Gladiators! Come back soon.");
+    }
+};
+
+// start first game when page loads
+startGame();
