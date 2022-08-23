@@ -4,14 +4,28 @@ var playerAttack = 10;
 var playerMoney = 10;
 
 // You can also log multiple variables at once like this
-console.log(playerName, playerAttack, playerHealth);
+// console.log(playerName, playerAttack, playerHealth);
 
-var enemyName = "Roborto";
+var enemyNames = ["Roberto", "Amy Android", "Robo Trumble" ];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
+// console.log(enemyNames); --> console shows names in an array
+// console.log(enemyNames[0]); --> console prints Roberto
+// console.log(enemyNames[1]); --> console prints Amy Android
+// console.log(enemyNames[2]); --> console prints Robo Trumble
+// console.log(enemyNames.length); --> console prints "3"
+
+// for(var i = 0; i < enemyNames.length; i++) {
+//     console.log(enemyNames[i]);
+//     console.log(i);
+//     console.log(enemyNames[i] + " is at " + i + " index.");
+// } 
+
 // FUNCTION EXPRESSION
-var fight = function() {
+// function(enemyName) --> [enemyName] is a variable parameter/placeholder that indicates how the variable will be used in the function
+// AND matches with [enemyName] in the fight function
+var fight = function(enemyName) {
     // Alert players that they are starting the round
     window.alert("Welcome to Robot Gladiators!");
 
@@ -71,7 +85,10 @@ var fight = function() {
     }
 };
 
-fight();
+// fight();
+for(var i = 0; i < enemyNames.length; i++) {
+    fight(enemyNames[i]);
+}
 
 // FUNCTION DECLARATION
 // function fight () {
