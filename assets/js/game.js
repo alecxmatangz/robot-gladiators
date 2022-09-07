@@ -4,21 +4,18 @@ var randomNumber = function(min, max) {
     return value;
 };
 
-
-
-// FUNCTION EXPRESSION
-// function(enemy.name) --> [enemy.name] is a variable parameter/placeholder that indicates how the variable will be used in the function
-// AND matches with [enemy.name] in the fight function
-var fight = function(enemy) {
-    // Repeat and execute as long as the enemy-robot and player-robot are alive
-    while(playerInfo.health > 0 && enemy.health > 0) {
-
+var fightOrSkip = function() {
     // ask player if they'd like to fight or run
     var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
 
-    // console.log to read back the response of promptFight to make sure it's working
-    console.log(promptFight);
+    // Conditional Recursive Function Call (makes this function repeat or loop)
+    // if (!promptFight) { } = invalid or null value
+    if (promptFight === "" | promptFight === null) {
+        window.alert("You need to provide a valid answer! Dumb bitch! Try again!");
+        return fightOrSkip();
+    }
 
+    promptFight = promptFight.toLowerCase();
     // conditional to determine whether the fight was skipped or not
     if (promptFight === "skip" || promptFight === "SKIP") {
         //confirm player wants to skip
@@ -30,49 +27,66 @@ var fight = function(enemy) {
             //subtract money from playerInfo.money for skipping
             playerInfo.money = Math.max(0, playerInfo.money - 10);
             console.log("playerInfo.money", playerInfo.money);
-            break;
+
+            // return true if player wants to leave
+            return true;
         }
     }
+    return false;
+}
 
-    // remove enemy's health by subtracting amount set in playerInfo.attack variable
-    // Math.max (0, variable name) ensures that deducted values stop at 0
-    var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
-    
-    enemy.health = Math.max(0, enemy.health - damage);
-    // log a resulting message on the console to see ene.health after playerInfo.attack
-    console.log(
-        playerInfo.name + " attacked " + enemy.name + ". " + enemy.name + " now has " + enemy.health + " health remaining."
-    );
+// FUNCTION EXPRESSION
+// function(enemy.name) --> [enemy.name] is a variable parameter/placeholder that indicates how the variable will be used in the function
+// AND matches with [enemy.name] in the fight function
+var fight = function(enemy) {
+    // Repeat and execute as long as the enemy-robot and player-robot are alive
+    while(playerInfo.health > 0 && enemy.health > 0) {
 
-    // check enemy's health
-    if (enemy.health <= 0) {
-        window.alert(enemy.name + " has died.");
+        // ask plater if they'd like to fight or skip using fightOrSkip function 
+        if (fightOrSkip()) {
+            // if true, leave fight by breaking loop
+            break;
+        }
 
-        // award player money for winning
-        playerInfo.money = playerInfo.money + 20;
-        // leave while() loop since enemy is dead
-        break;
-    } else {
-        window.alert(enemy.name + " still has " + enemy.health + " health left.");
-    }
+        // remove enemy's health by subtracting amount set in playerInfo.attack variable
+        // Math.max (0, variable name) ensures that deducted values stop at 0
+        var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+        
+        enemy.health = Math.max(0, enemy.health - damage);
+        // log a resulting message on the console to see ene.health after playerInfo.attack
+        console.log(
+            playerInfo.name + " attacked " + enemy.name + ". " + enemy.name + " now has " + enemy.health + " health remaining."
+        );
 
-    // remove player's health by subtracting the amount set in the enemy.attack value
-    var damage = randomNumber(enemy.attack - 3, enemy.attack);
-    
-    playerInfo.health = Math.max(0, playerInfo.health - damage);
-    // log a resulting message on the console to see playerInfo.health after enemy.attack
-    console.log(
-        enemy.name + " attacked " + playerInfo.name + ". " + playerInfo.name + " now has " + playerInfo.health + " health remaining."
-    );
+        // check enemy's health
+        if (enemy.health <= 0) {
+            window.alert(enemy.name + " has died.");
 
-    // check and log playerInfo.health
-    if (playerInfo.health <= 0) {
-        window.alert(playerInfo.name + " has died.");
-        // leave while() loop if player is dead    
-        break;
-    } else {
-        window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
-    }
+            // award player money for winning
+            playerInfo.money = playerInfo.money + 20;
+            // leave while() loop since enemy is dead
+            break;
+        } else {
+            window.alert(enemy.name + " still has " + enemy.health + " health left.");
+        }
+
+        // remove player's health by subtracting the amount set in the enemy.attack value
+        var damage = randomNumber(enemy.attack - 3, enemy.attack);
+        
+        playerInfo.health = Math.max(0, playerInfo.health - damage);
+        // log a resulting message on the console to see playerInfo.health after enemy.attack
+        console.log(
+            enemy.name + " attacked " + playerInfo.name + ". " + playerInfo.name + " now has " + playerInfo.health + " health remaining."
+        );
+
+        // check and log playerInfo.health
+        if (playerInfo.health <= 0) {
+            window.alert(playerInfo.name + " has died.");
+            // leave while() loop if player is dead    
+            break;
+        } else {
+            window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
+        }
     } // end of while loop
 }; // end of fight function 
 
